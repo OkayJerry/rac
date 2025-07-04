@@ -1,0 +1,38 @@
+{
+  "../../../../../@crx/manifest": {
+    "file": "assets/crx-manifest.js-DK-bQ-Gr.js",
+    "name": "crx-manifest.js",
+    "src": "../../../../../@crx/manifest",
+    "isEntry": true
+  },
+  "node_modules/@xenova/transformers/src/transformers.js": {
+    "file": "assets/transformers-CSeWW_4A.js",
+    "name": "transformers",
+    "src": "node_modules/@xenova/transformers/src/transformers.js",
+    "isDynamicEntry": true
+  },
+  "src/background/index.ts": {
+    "file": "assets/index.ts-D3ubPmvR.js",
+    "name": "index.ts",
+    "src": "src/background/index.ts",
+    "isEntry": true,
+    "dynamicImports": [
+      "node_modules/@xenova/transformers/src/transformers.js"
+    ]
+  },
+  "src/content/index.ts": {
+    "file": "assets/index.ts-DvLo_VKg.js",
+    "name": "index.ts",
+    "src": "src/content/index.ts",
+    "isEntry": true
+  },
+  "src/popup/index.html": {
+    "file": "assets/index.html-Bxo91Xzp.js",
+    "name": "index.html",
+    "src": "src/popup/index.html",
+    "isEntry": true,
+    "css": [
+      "assets/index-ClfR1dM_.css"
+    ]
+  }
+}
