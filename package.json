@@ -4,7 +4,12 @@
   "license": "MIT",
   "scripts": {
     "tree": "tree -a -I \"$(grep -vE '^#|^$' .gitignore | tr '\\n' '|' | sed 's/|$//')|.git\" -o tree.txt",
-    "dev": "concurrently \"npx nx serve extension\" \"wait-on http://localhost:4200 && open -n -a 'Google Chrome' --args --load-extension=$(pwd)/extension/dist --disable-extensions-except=$(pwd)/extension/dist\""
+    "dev": "concurrently \"npx nx serve extension\" \"wait-on http://localhost:4200 && open -n -a 'Google Chrome' --args --load-extension=$(pwd)/extension/dist --disable-extensions-except=$(pwd)/extension/dist\"",
+    "rebuild": "nx reset && nx run-many --target=lint --all --fix && nx run-many --target=build --all && nx run-many --target=test --all",
+    "test": "npm run test:all",
+    "test:all": "npm run test:unit && npm run test:e2e",
+    "test:e2e": "firebase emulators:exec \"npx nx e2e extension-e2e\"",
+    "test:unit": "nx run-many --target=test --all"
   },
   "private": true,
   "devDependencies": {
