@@ -46,3 +46,6 @@ tree.txt
 
 # GitHub instructions (not source)
 .github/instructions/nx.instructions.md
+
+# Generated project graph output
+static/
