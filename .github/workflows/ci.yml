@@ -7,34 +7,50 @@ on:
   pull_request:
 
 permissions:
-  actions: read
   contents: read
+  actions: read
 
 jobs:
   main:
     runs-on: ubuntu-latest
+
     steps:
+      # 1) Checkout full history for Nx affected detection
       - uses: actions/checkout@v4
         with:
-          filter: tree:0
           fetch-depth: 0
 
-      # This enables task distribution via Nx Cloud
-      # Run this command as early as possible, before dependencies are installed
-      # Learn more at https://nx.dev/ci/reference/nx-cloud-cli#npx-nxcloud-startcirun
-      # Uncomment this line to enable task distribution
-      # - run: npx nx-cloud start-ci-run --distribute-on="3 linux-medium-js" --stop-agents-after="build"
-
-      # Cache node_modules
+      # 2) Node.js + npm cache
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'npm'
 
+      # 3) Install deps
       - run: npm ci --legacy-peer-deps
-      - uses: nrwl/nx-set-shas@v4
 
-      # Prepend any command with "nx-cloud record --" to record its logs to Nx Cloud
-      # - run: npx nx-cloud record -- echo Hello World
-      # Nx Affected runs only tasks affected by the changes in this PR/commit. Learn more: https://nx.dev/ci/features/affected
-      - run: npx nx affected -t lint test build
+      # 4) Prettier formatting check
+      - name: Check formatting
+        run: npx nx format:check --all
+
+      # 5) ESLint / module-boundary lint
+      - name: Lint affected projects
+        run: npx nx affected --target=lint --parallel
+
+      # 6) Run unit tests (Jest) for affected projects
+      - name: Test affected projects
+        run: npx nx affected --target=test --parallel
+
+      # 7) Build only what changed
+      - name: Build affected projects
+        run: npx nx affected --target=build --parallel
+
+      # 8) End-to-end tests against local emulators
+      - name: E2E tests with Playwright & Firebase Emulators
+        run: |
+          npm install -g firebase-tools
+          firebase emulators:exec "npx nx e2e extension-e2e"
+
+      # 9) Upload code coverage or artifacts here
+      - name: Upload coverage
+        uses: codecov/codecov-action@v3
