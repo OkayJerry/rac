@@ -54,7 +54,7 @@ jobs:
 
       # 9) Install firebase-admin in functions workspace to satisfy emulator
       - name: Install firebase-admin for emulator
-        run: npm install --workspace=apps/functions --save firebase-admin
+        run: npm install --save firebase-admin
 
       # 10) Cache Firestore emulator JAR to speed up CI
       - name: Cache Firestore Emulator JAR
