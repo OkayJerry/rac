@@ -24,12 +24,13 @@ test.describe('Extension + Backend Sanity Suite', () => {
   test.beforeAll(async () => {
     // Launch Chrome with only our unpacked extension loaded
     context = await chromium.launchPersistentContext('', {
-      headless: false,
+      headless: process.env.CI ? true : false, // headless in CI
       channel: 'chrome',
       args: [
+        process.env.CI && '--no-sandbox',
         `--disable-extensions-except=${EXTENSION_DIST}`,
         `--load-extension=${EXTENSION_DIST}`,
-      ],
+      ].filter(Boolean) as string[],
     });
 
     // Obtain the service worker so we can derive the extension ID
