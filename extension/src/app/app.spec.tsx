@@ -1,3 +1,4 @@
+// extension/src/app/app.spec.tsx
 import { render } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 

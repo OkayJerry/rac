@@ -1,3 +1,4 @@
+// jest.config.ts
 import type { Config } from 'jest';
 import { getJestProjectsAsync } from '@nx/jest';
 

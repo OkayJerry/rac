@@ -1,3 +1,4 @@
+// apps/functions/src/index.ts
 // This example is based on the Firebase Functions v2 API.
 // For more information, see https://firebase.google.com/docs/functions/version-comparison
 import { logger } from 'firebase-functions';

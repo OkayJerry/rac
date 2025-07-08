@@ -1,3 +1,4 @@
+// extension/tailwind.config.js
 const { createGlobPatternsForDependencies } = require('@nx/react/tailwind');
 const { join } = require('path');
 

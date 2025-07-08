@@ -1,4 +1,5 @@
 /// <reference types='vitest' />
+// extension/vite.config.ts
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { crx } from '@crxjs/vite-plugin';

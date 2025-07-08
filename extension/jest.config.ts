@@ -1,3 +1,4 @@
+// extension/jest.config.ts
 export default {
   displayName: '@rac/extension',
   preset: '../jest.preset.js',
