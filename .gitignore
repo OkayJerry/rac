@@ -49,3 +49,7 @@ tree.txt
 
 # Generated project graph output
 static/
+test-output
+
+vite.config.*.timestamp*
+vitest.config.*.timestamp*

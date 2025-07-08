@@ -13,5 +13,5 @@ export default {
     ],
   },
   moduleFileExtensions: ['ts', 'js'],
-  coverageDirectory: '../../coverage/apps/functions',
+  coverageDirectory: '../../test-output/jest/coverage/apps/functions',
 };

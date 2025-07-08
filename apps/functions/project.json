@@ -14,12 +14,12 @@
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": ["coverage/apps/functions"],
+      "outputs": ["{workspaceRoot}/test-output/jest/coverage/apps/functions"],
       "options": {
         "jestConfig": "apps/functions/jest.config.ts",
         "passWithNoTests": true,
-        "coverageDirectory": "coverage/apps/functions"
-      }
+        "coverageDirectory": "test-output/jest/coverage/apps/functions"
+    }
     },
     "build": {
       "executor": "@nx/esbuild:esbuild",
