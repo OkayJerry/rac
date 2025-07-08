@@ -1,44 +1,47 @@
-# See https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
-
-# compiled output
-dist
-tmp
-out-tsc
-
-# dependencies
+# Node.js dependencies
 node_modules
 
-# IDEs and editors
-/.idea
-.project
-.classpath
-.c9/
-*.launch
-.settings/
+# Local environment files (may contain secrets)
+.env*
+.env.local
+
+# Nx cache and workspace data
+.nx
+# (Nx’s performance cache and daemon logs)
+
+# Build outputs
+dist
+build
+
+# IDE and editor settings
+.vscode
+.idea
 *.sublime-workspace
+*.launch
 
-# IDE - VSCode
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-
-# misc
-/.sass-cache
-/connect.lock
-/coverage
-/libpeerconnection.log
-npm-debug.log
-yarn-error.log
-testem.log
-/typings
-
-# System Files
+# OS-generated files
 .DS_Store
 Thumbs.db
 
-.nx/cache
-.nx/workspace-data
-.cursor/rules/nx-rules.mdc
-.github/instructions/nx.instructions.md
+# Logs and debug output
+*.log
+firebase-debug.log
+firebase-debug.*.log
+firestore-debug.log
+pglite-debug.log
+
+# Test outputs
+coverage
+test-results
+test-output
+
+# Firebase Emulator Suite data (local state & caches)
+.firebase
+# (Emulator state, not source)
+
+# Auto-generated project files
+graph.html
+tree.txt
+
+# Chrome extension dev profile
+.chrome-dev-profile
