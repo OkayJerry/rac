@@ -1,4 +1,3 @@
-# .github/workflows/ci.yml
 name: CI
 
 on:
@@ -49,19 +48,26 @@ jobs:
       - name: Build affected projects
         run: npx nx affected --target=build --parallel
 
-      # 8) Ensure Cloud Functions are compiled for the emulator
+      # 8) Always build the Cloud Functions project
       - name: Build Cloud Functions
         run: npx nx build functions
 
-      # 9) Cache Firestore emulator JAR to speed up CI
+      # 9) Install firebase-admin in functions workspace to satisfy emulator
+      - name: Install firebase-admin for emulator
+        run: npm install --workspace=apps/functions --save firebase-admin
+
+      # 10) Cache Firestore emulator JAR to speed up CI
       - name: Cache Firestore Emulator JAR
         uses: actions/cache@v3
         with:
           path: ~/.cache/firebase/emulators
           key: ${{ runner.os }}-firebase-emulator-cache
 
-      # 10) Run end-to-end tests with Playwright against the Firebase Emulator Suite
+      # 11) Install a pinned version of firebase-tools
+      - name: Install Firebase CLI
+        run: npm install -g firebase-tools@14.9.0
+
+      # 12) End-to-end tests with Playwright against the Firebase Emulator Suite
       - name: E2E tests with Playwright & Firebase Emulators
         run: |
-          npm install -g firebase-tools
           firebase emulators:exec "npx nx e2e extension-e2e"
