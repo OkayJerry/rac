@@ -1,21 +1,22 @@
 # Node.js dependencies
-node_modules
+node_modules/
 
 # Local environment files (may contain secrets)
 .env*
 .env.local
 
-# Nx cache and workspace data
-.nx
-# (Nx’s performance cache and daemon logs)
-
 # Build outputs
-dist
-build
+dist/
+build/
+
+# Nx cache and workspace data
+.nx/
+# (Performance cache and daemon logs)
 
 # IDE and editor settings
-.vscode
-.idea
+.vscode/
+.cursor/
+.idea/
 *.sublime-workspace
 *.launch
 
@@ -31,17 +32,17 @@ firestore-debug.log
 pglite-debug.log
 
 # Test outputs
-coverage
-test-results
-test-output
+coverage/
+test-results/
+test-output/
 
-# Firebase Emulator Suite data (local state & caches)
-.firebase
-# (Emulator state, not source)
+# Firebase Emulator Suite data
+.firebase/
+.chrome-dev-profile/
 
 # Auto-generated project files
 graph.html
 tree.txt
 
-# Chrome extension dev profile
-.chrome-dev-profile
+# GitHub instructions (not source)
+.github/instructions/nx.instructions.md
