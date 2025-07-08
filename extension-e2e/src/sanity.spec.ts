@@ -4,17 +4,18 @@ import path from 'path';
 import { test, expect } from '@playwright/test';
 import { chromium, type BrowserContext, type Worker } from 'playwright';
 
-const EXTENSION_DIST         = path.resolve(__dirname, '../../extension/dist');
-const RC_PATH                = path.resolve(__dirname, '../../.firebaserc');
-const FIREBASE_PROJECT       = JSON.parse(fs.readFileSync(RC_PATH, 'utf-8')).projects.default;
+const EXTENSION_DIST = path.resolve(__dirname, '../../extension/dist');
+const RC_PATH = path.resolve(__dirname, '../../.firebaserc');
+const FIREBASE_PROJECT = JSON.parse(fs.readFileSync(RC_PATH, 'utf-8')).projects
+  .default;
 
-const AUTH_EMULATOR_URL      = 'http://127.0.0.1:9099';
+const AUTH_EMULATOR_URL = 'http://127.0.0.1:9099';
 const FIRESTORE_EMULATOR_URL = 'http://127.0.0.1:8081';
 const FUNCTIONS_EMULATOR_URL = 'http://127.0.0.1:5001';
 
 const COLLECTION_PATH = `projects/${FIREBASE_PROJECT}/databases/(default)/documents/sanity`;
-const DOC_ID          = 'crudTestDoc';
-const DOC_PATH        = `${COLLECTION_PATH}/${DOC_ID}`;
+const DOC_ID = 'crudTestDoc';
+const DOC_PATH = `${COLLECTION_PATH}/${DOC_ID}`;
 
 test.describe('Extension + Backend Sanity Suite', () => {
   let context: BrowserContext;
@@ -74,8 +75,8 @@ test.describe('Extension + Backend Sanity Suite', () => {
       {
         data: {
           email: 'e2e@sanity.test',
-          password: 'pass123'
-        }
+          password: 'pass123',
+        },
       }
     );
     expect(signUpRes.ok()).toBeTruthy();
@@ -97,9 +98,9 @@ test.describe('Extension + Backend Sanity Suite', () => {
         data: {
           fields: {
             status: { stringValue: 'new' },
-            count:  { integerValue: '1'  },
-          }
-        }
+            count: { integerValue: '1' },
+          },
+        },
       });
       expect(res.ok()).toBeTruthy();
       const body = await res.json();
@@ -120,15 +121,15 @@ test.describe('Extension + Backend Sanity Suite', () => {
     test('UPDATE document', async ({ request }) => {
       const res = await request.patch(
         `${FIRESTORE_EMULATOR_URL}/v1/${DOC_PATH}` +
-        '?updateMask.fieldPaths=status&updateMask.fieldPaths=count',
+          '?updateMask.fieldPaths=status&updateMask.fieldPaths=count',
         {
           headers: { Authorization: 'Bearer owner' },
           data: {
             fields: {
               status: { stringValue: 'updated' },
-              count:  { integerValue: '42'     },
-            }
-          }
+              count: { integerValue: '42' },
+            },
+          },
         }
       );
       expect(res.ok()).toBeTruthy();
@@ -138,15 +139,19 @@ test.describe('Extension + Backend Sanity Suite', () => {
     });
 
     test('DELETE document', async ({ request }) => {
-        const url = `${FIRESTORE_EMULATOR_URL}/v1/${DOC_PATH}`;
+      const url = `${FIRESTORE_EMULATOR_URL}/v1/${DOC_PATH}`;
 
-        // 1) Delete
-        const delRes = await request.delete(url, { headers: { Authorization: 'Bearer owner' } });
-        expect(delRes.ok()).toBeTruthy();
-      
-        // 2) Verify deletion
-        const getRes = await request.get(url, { headers: { Authorization: 'Bearer owner' } });
-        expect(getRes.status()).toBe(404);
+      // 1) Delete
+      const delRes = await request.delete(url, {
+        headers: { Authorization: 'Bearer owner' },
       });
+      expect(delRes.ok()).toBeTruthy();
+
+      // 2) Verify deletion
+      const getRes = await request.get(url, {
+        headers: { Authorization: 'Bearer owner' },
+      });
+      expect(getRes.status()).toBe(404);
+    });
   });
 });

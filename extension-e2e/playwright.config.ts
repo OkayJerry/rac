@@ -16,18 +16,18 @@ const baseURL = process.env['BASE_URL'] || 'http://localhost:4200';
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-    ...nxE2EPreset(__filename, { testDir: './src' }),
-    use: {
-      baseURL,
-      trace: 'on-first-retry',
-    },
-    webServer: {
-        command: 'npx nx serve extension',
-        url: baseURL,
-        reuseExistingServer: true,
-        cwd: workspaceRoot,
-      },
-    projects: [
+  ...nxE2EPreset(__filename, { testDir: './src' }),
+  use: {
+    baseURL,
+    trace: 'on-first-retry',
+  },
+  webServer: {
+    command: 'npx nx serve extension',
+    url: baseURL,
+    reuseExistingServer: true,
+    cwd: workspaceRoot,
+  },
+  projects: [
     {
       name: 'chromium',
       use: {
