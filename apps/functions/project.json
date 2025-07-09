@@ -53,5 +53,5 @@
       "command": "firebase deploy --only functions"
     }
   },
-  "tags": []
+  "tags": ["scope:backend"]
 }
