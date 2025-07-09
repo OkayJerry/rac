@@ -11,7 +11,8 @@ swcJestConfig.swcrc = false;
 export default {
   displayName: '@rac/data-access-firebase-client',
   preset: '../../../jest.preset.js',
-  testEnvironment: 'node',
+  testEnvironment: 'jsdom',
+  setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   transform: {
     '^.+\\.[tj]s$': ['@swc/jest', swcJestConfig],
   },
