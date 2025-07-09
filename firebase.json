@@ -16,22 +16,9 @@
       ],
       "predeploy": [
         "npx nx run functions:build",
-        "echo 'Functions built successfully.'"
-      ]
-    },
-    {
-      "source": "apps/functions",
-      "codebase": "rac",
-      "ignore": [
-        "node_modules",
-        ".git",
-        "firebase-debug.log",
-        "firebase-debug.*.log",
-        "*.local"
-      ],
-      "predeploy": [
-        "npm --prefix \"$RESOURCE_DIR\" run lint",
-        "npm --prefix \"$RESOURCE_DIR\" run build"
+        "echo 'Functions built successfully.'",
+        "npx nx run functions:lint",
+        "echo 'Functions linted successfully.'"
       ]
     }
   ],
@@ -49,7 +36,7 @@
       "port": 5001
     },
     "firestore": {
-      "port": 8081
+      "port": 8080
     },
     "ui": {
       "enabled": true,

@@ -4,5 +4,12 @@
   "main": "index.js",
   "engines": {
     "node": "20"
+  },
+  "scripts": {
+    "lint": "echo 'Functions linted in predeploy.'",
+    "build": "echo 'Functions built in predeploy.'"
+  },
+  "dependencies": {
+    "firebase-functions": "^6.0.0"
   }
 }
