@@ -19,7 +19,7 @@
         "jestConfig": "apps/functions/jest.config.ts",
         "passWithNoTests": true,
         "coverageDirectory": "test-output/jest/coverage/apps/functions"
-    }
+      }
     },
     "build": {
       "executor": "@nx/esbuild:esbuild",
