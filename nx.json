@@ -35,7 +35,8 @@
         "features/auth/*",
         "data-access/firebase-client/*",
         "ai/gemini-client/*",
-        "utils/chrome-storage/*"
+        "utils/chrome-storage/*",
+        "data-access/firebase-admin/*"
       ]
     },
     {
@@ -89,7 +90,8 @@
         "features/auth/*",
         "data-access/firebase-client/*",
         "ai/gemini-client/*",
-        "utils/chrome-storage/*"
+        "utils/chrome-storage/*",
+        "data-access/firebase-admin/*"
       ],
       "options": {
         "typecheck": {

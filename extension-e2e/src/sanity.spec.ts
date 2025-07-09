@@ -10,7 +10,7 @@ const FIREBASE_PROJECT = JSON.parse(fs.readFileSync(RC_PATH, 'utf-8')).projects
   .default;
 
 const AUTH_EMULATOR_URL = 'http://127.0.0.1:9099';
-const FIRESTORE_EMULATOR_URL = 'http://127.0.0.1:8081';
+const FIRESTORE_EMULATOR_URL = 'http://127.0.0.1:8080';
 const FUNCTIONS_EMULATOR_URL = 'http://127.0.0.1:5001';
 
 const COLLECTION_PATH = `projects/${FIREBASE_PROJECT}/databases/(default)/documents/sanity`;

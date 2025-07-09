@@ -35,6 +35,9 @@
     },
     {
       "path": "./libs/ai/gemini-client"
+    },
+    {
+      "path": "./libs/data-access/firebase-admin"
     }
   ]
 }
