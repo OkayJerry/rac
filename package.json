@@ -87,7 +87,8 @@
     "libs/shared/*",
     "libs/features/*",
     "libs/data-access/*",
-    "libs/utils/*"
+    "libs/utils/*",
+    "libs/ai/*"
   ],
   "dependencies": {
     "@google/generative-ai": "^0.24.1",

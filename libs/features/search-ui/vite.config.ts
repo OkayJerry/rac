@@ -6,7 +6,7 @@ import * as path from 'path';
 
 export default defineConfig(() => ({
   root: __dirname,
-  cacheDir: '../../node_modules/.vite/features/search-ui',
+  cacheDir: '../../../node_modules/.vite/features/search-ui',
   plugins: [
     react(),
     dts({
