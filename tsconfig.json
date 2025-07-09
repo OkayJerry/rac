@@ -13,28 +13,28 @@
       "path": "./apps/functions"
     },
     {
-      "path": "./shared/types"
-    },
-    {
-      "path": "./shared/assets"
-    },
-    {
-      "path": "./shared/ui"
-    },
-    {
-      "path": "./features/auth"
-    },
-    {
       "path": "./features/search-ui"
-    },
-    {
-      "path": "./data-access/firebase-client"
     },
     {
       "path": "./ai/gemini-client"
     },
     {
-      "path": "./utils/chrome-storage"
+      "path": "./libs/data-access/firebase-client"
+    },
+    {
+      "path": "./libs/utils/chrome-storage"
+    },
+    {
+      "path": "./libs/features/auth"
+    },
+    {
+      "path": "./libs/shared/assets"
+    },
+    {
+      "path": "./libs/shared/types"
+    },
+    {
+      "path": "./libs/shared/ui"
     }
   ]
 }
