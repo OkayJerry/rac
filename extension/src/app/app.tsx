@@ -1,5 +1,6 @@
 // extension/src/app/app.tsx
 import NxWelcome from './nx-welcome';
+import { types } from '@rac/shared-types';
 
 import { Route, Routes, Link } from 'react-router-dom';
 
