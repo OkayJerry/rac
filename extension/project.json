@@ -1,7 +1,7 @@
 {
-    "name": "@rac/extension",
-    "$schema": "../node_modules/nx/schemas/project-schema.json",
-    "sourceRoot": "extension/src",
-    "projectType": "application",
-    "tags": ["scope:frontend"]
-  }
+  "name": "@rac/extension",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "extension/src",
+  "projectType": "application",
+  "tags": ["scope:frontend"]
+}
