@@ -1,27 +1,51 @@
 // libs/data-access/firebase-client/src/lib/firebase-client.ts
-import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
-import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
-import { getFunctions, connectFunctionsEmulator } from 'firebase/functions';
+import { initializeApp, getApps, FirebaseApp } from 'firebase/app';
+import { getAuth, Auth, connectAuthEmulator } from 'firebase/auth';
+import {
+  getFirestore,
+  Firestore,
+  connectFirestoreEmulator,
+} from 'firebase/firestore';
+import {
+  getFunctions,
+  Functions,
+  connectFunctionsEmulator,
+} from 'firebase/functions';
 
-const firebaseConfig = {
-  apiKey: 'AIzaSyC1oSFjBMDsJ0tTHZxyOdQdVdlT1lRNhMg',
-  authDomain: 'retrieval-augmented-clipboard.firebaseapp.com',
-  projectId: 'retrieval-augmented-clipboard',
-  storageBucket: 'retrieval-augmented-clipboard.firebasestorage.app',
-  messagingSenderId: '1055063554848',
-  appId: '1:1055063554848:web:e6b8ec25d54763c1cb7545',
-  measurementId: 'G-6Q6NK9BVT7',
-};
+export let app: FirebaseApp;
+export let auth: Auth;
+export let db: Firestore;
+export let functions: Functions;
 
-// Initialize
-const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
-export const db = getFirestore(app);
-export const functions = getFunctions(app);
+function getFirebaseConfig(env: Record<string, string>) {
+  return {
+    apiKey: env.VITE_API_KEY ?? '',
+    authDomain: env.VITE_AUTH_DOMAIN ?? '',
+    projectId: env.VITE_PROJECT_ID ?? '',
+    storageBucket: env.VITE_STORAGE_BUCKET ?? '',
+    messagingSenderId: env.VITE_MESSAGING_SENDER_ID ?? '',
+    appId: env.VITE_APP_ID ?? '',
+    measurementId: env.VITE_MEASUREMENT_ID ?? '',
+  };
+}
 
-// If running locally, point at emulators
-if (location.hostname === 'localhost') {
-  connectFirestoreEmulator(db, '127.0.0.1', 8080);
-  connectFunctionsEmulator(functions, '127.0.0.1', 5001);
+export function initializeClientApp(env: Record<string, any>) {
+  const existingApps = getApps();
+
+  if (existingApps.length > 0) {
+    app = existingApps[0];
+  } else {
+    const config = getFirebaseConfig(env);
+    app = initializeApp(config);
+  }
+
+  auth = getAuth(app);
+  db = getFirestore(app);
+  functions = getFunctions(app);
+
+  if (env.DEV) {
+    connectAuthEmulator(auth, 'http://127.0.0.1:9099');
+    connectFirestoreEmulator(db, '127.0.0.1', 8080);
+    connectFunctionsEmulator(functions, '127.0.0.1', 5001);
+  }
 }

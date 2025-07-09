@@ -1,0 +1,7 @@
+{
+  "name": "@rac/data-access-firebase-admin",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/data-access/firebase-admin/src",
+  "projectType": "library",
+  "tags": ["scope:backend"]
+}

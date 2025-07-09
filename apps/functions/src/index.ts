@@ -1,4 +1,9 @@
 // apps/functions/src/index.ts
+import { initializeAdminApp } from '@rac/data-access-firebase-admin';
+
+// Initialize Firebase Admin SDK when the functions environment starts up.
+initializeAdminApp();
+
 import { logger } from 'firebase-functions';
 import { onRequest } from 'firebase-functions/v2/https';
 

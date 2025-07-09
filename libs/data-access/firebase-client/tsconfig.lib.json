@@ -7,8 +7,7 @@
     "tsBuildInfoFile": "dist/tsconfig.lib.tsbuildinfo",
     "emitDeclarationOnly": true,
     "forceConsistentCasingInFileNames": true,
-    "types": ["node"],
-    "lib": ["dom"]
+    "types": ["node", "vite/client"]
   },
   "include": ["src/**/*.ts"],
   "references": [],

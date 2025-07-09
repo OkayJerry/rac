@@ -1,77 +1,78 @@
 // libs/data-access/firebase-client/src/lib/firebase-client.spec.ts
+import { jest } from '@jest/globals';
 
-// Mock the Firebase modules
-jest.mock('firebase/app');
-jest.mock('firebase/auth');
-jest.mock('firebase/firestore');
-jest.mock('firebase/functions');
+const mockInitializeApp = jest.fn();
+const mockGetApps = jest.fn();
+const mockGetAuth = jest.fn();
+const mockConnectAuthEmulator = jest.fn();
+const mockGetFirestore = jest.fn();
+const mockConnectFirestoreEmulator = jest.fn();
+const mockGetFunctions = jest.fn();
+const mockConnectFunctionsEmulator = jest.fn();
 
-describe('Firebase Client Initialization', () => {
-  const originalLocation = window.location;
+jest.mock('firebase/app', () => ({
+  initializeApp: mockInitializeApp,
+  getApps: mockGetApps,
+}));
+jest.mock('firebase/auth', () => ({
+  getAuth: mockGetAuth,
+  connectAuthEmulator: mockConnectAuthEmulator,
+}));
+jest.mock('firebase/firestore', () => ({
+  getFirestore: mockGetFirestore,
+  connectFirestoreEmulator: mockConnectFirestoreEmulator,
+}));
+jest.mock('firebase/functions', () => ({
+  getFunctions: mockGetFunctions,
+  connectFunctionsEmulator: mockConnectFunctionsEmulator,
+}));
 
+const mockProdEnv = {
+  DEV: false,
+  VITE_API_KEY: 'test-key',
+  VITE_AUTH_DOMAIN: 'test-domain',
+  VITE_PROJECT_ID: 'test-project',
+};
+
+describe('firebase-client initializer', () => {
   beforeEach(() => {
-    // Reset the module cache before each test
+    jest.clearAllMocks();
     jest.resetModules();
-
-    // Mock window.location for a "production" environment by default
-    Object.defineProperty(window, 'location', {
-      writable: true,
-      value: { ...originalLocation, hostname: 'production.host' },
-    });
   });
 
-  afterAll(() => {
-    // Restore the original location object
-    Object.defineProperty(window, 'location', {
-      writable: true,
-      value: originalLocation,
-    });
+  it('should initialize without emulators in prod', () => {
+    mockGetApps.mockReturnValue([]);
+    const { initializeClientApp } = require('./firebase-client');
+    initializeClientApp(mockProdEnv);
+
+    expect(mockGetApps).toHaveBeenCalledTimes(1);
+    expect(mockInitializeApp).toHaveBeenCalledTimes(1);
+    expect(mockConnectAuthEmulator).not.toHaveBeenCalled();
+    expect(mockConnectFirestoreEmulator).not.toHaveBeenCalled();
+    expect(mockConnectFunctionsEmulator).not.toHaveBeenCalled();
   });
 
-  it('should initialize Firebase services for production', async () => {
-    // 1. Execute the module code
-    await import('./firebase-client.js');
+  it('should initialize with emulators in dev', () => {
+    mockGetApps.mockReturnValue([]);
+    const { initializeClientApp } = require('./firebase-client');
+    initializeClientApp({ ...mockProdEnv, DEV: true });
 
-    // 2. Get the fresh mocks AFTER the module has been loaded
-    const { initializeApp } = require('firebase/app');
-    const { getAuth } = require('firebase/auth');
-    const {
-      getFirestore,
-      connectFirestoreEmulator,
-    } = require('firebase/firestore');
-    const {
-      getFunctions,
-      connectFunctionsEmulator,
-    } = require('firebase/functions');
-
-    // 3. Assert against the new mocks
-    expect(initializeApp).toHaveBeenCalledTimes(1);
-    expect(getAuth).toHaveBeenCalledTimes(1);
-    expect(getFirestore).toHaveBeenCalledTimes(1);
-    expect(getFunctions).toHaveBeenCalledTimes(1);
-
-    // Verify emulators are NOT connected
-    expect(connectFirestoreEmulator).not.toHaveBeenCalled();
-    expect(connectFunctionsEmulator).not.toHaveBeenCalled();
+    expect(mockGetApps).toHaveBeenCalledTimes(1);
+    expect(mockInitializeApp).toHaveBeenCalledTimes(1);
+    expect(mockConnectAuthEmulator).toHaveBeenCalledTimes(1);
+    expect(mockConnectFirestoreEmulator).toHaveBeenCalledTimes(1);
+    expect(mockConnectFunctionsEmulator).toHaveBeenCalledTimes(1);
   });
 
-  it('should connect to emulators when running locally', async () => {
-    // Set hostname to localhost to trigger emulator logic
-    Object.defineProperty(window.location, 'hostname', {
-      value: 'localhost',
-    });
+  it('should retrieve services without initializing a new app if one exists', () => {
+    mockGetApps.mockReturnValue([{}]);
+    const { initializeClientApp } = require('./firebase-client');
+    initializeClientApp(mockProdEnv);
 
-    // 1. Execute the module code
-    await import('./firebase-client.js');
-
-    // 2. Get the fresh mocks AFTER the module has been loaded
-    const { initializeApp } = require('firebase/app');
-    const { connectFirestoreEmulator } = require('firebase/firestore');
-    const { connectFunctionsEmulator } = require('firebase/functions');
-
-    // 3. Assert against the new mocks
-    expect(initializeApp).toHaveBeenCalledTimes(1);
-    expect(connectFirestoreEmulator).toHaveBeenCalledTimes(1);
-    expect(connectFunctionsEmulator).toHaveBeenCalledTimes(1);
+    expect(mockGetApps).toHaveBeenCalledTimes(1);
+    expect(mockInitializeApp).not.toHaveBeenCalled();
+    expect(mockGetAuth).toHaveBeenCalledTimes(1);
+    expect(mockGetFirestore).toHaveBeenCalledTimes(1);
+    expect(mockGetFunctions).toHaveBeenCalledTimes(1);
   });
 });
