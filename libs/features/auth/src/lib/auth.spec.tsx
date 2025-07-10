@@ -1,25 +1,46 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { AuthForm } from './auth';
 
-jest.mock('@rac/data-access-firebase-client', () => ({
-  auth: {},
-}));
-
+jest.mock('@rac/data-access-firebase-client', () => ({ auth: {} }));
 jest.mock('firebase/auth', () => ({
   signInWithEmailAndPassword: jest.fn(() => Promise.resolve()),
   createUserWithEmailAndPassword: jest.fn(() => Promise.resolve()),
 }));
 
-describe('AuthForm', () => {
-  it('renders sign-in heading and toggles mode', () => {
+describe('<AuthForm />', () => {
+  it('renders Sign In view by default', () => {
     render(<AuthForm />);
-    // This targets the <h2> element specifically
-    const heading = screen.getByRole('heading', { level: 2, name: 'Sign In' });
-    expect(heading).toBeVisible();
+    expect(
+      screen.getByRole('heading', { name: /sign in/i })
+    ).toBeInTheDocument(); // RTL best-practice 🙂 :contentReference[oaicite:2]{index=2}
+  });
 
-    fireEvent.click(screen.getByText('Switch to Sign Up'));
+  it('switches to Create Account and back without crashing', () => {
+    render(<AuthForm />);
 
-    const heading2 = screen.getByRole('heading', { level: 2, name: 'Sign Up' });
-    expect(heading2).toBeVisible();
+    // go to Sign-Up
+    fireEvent.click(screen.getByRole('button', { name: /sign up/i }));
+    expect(
+      screen.getByRole('heading', { name: /create account/i })
+    ).toBeInTheDocument();
+
+    // confirm-password field now exists
+    expect(screen.getByLabelText(/confirm password/i)).toBeInTheDocument();
+
+    // back-link at top
+    fireEvent.click(screen.getByRole('button', { name: /back to sign in/i }));
+    expect(
+      screen.getByRole('heading', { name: /sign in/i })
+    ).toBeInTheDocument();
+  });
+
+  it('shows validation error for bad email', () => {
+    render(<AuthForm />);
+    const emailInput = screen.getByLabelText(/email/i);
+
+    fireEvent.change(emailInput, { target: { value: 'not-an-email' } });
+    fireEvent.blur(emailInput);
+
+    expect(screen.getByText(/please enter a valid e-mail/i)).toBeVisible();
   });
 });
