@@ -1,7 +1,20 @@
 rules_version = '2';
-
 service cloud.firestore {
   match /databases/{database}/documents {
+
+    // Users: only the signed-in user may read/write their own doc
+    match /users/{userId} {
+      allow read, write: if request.auth != null
+                         && request.auth.uid == userId;
+    }
+
+    // Knowledge bases: public read, no direct client writes
+    match /knowledge_bases/{docId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // Everything else is forbidden
     match /{document=**} {
       allow read, write: if false;
     }
