@@ -35,8 +35,7 @@
         "features/auth/*",
         "data-access/firebase-client/*",
         "ai/gemini-client/*",
-        "utils/chrome-storage/*",
-        "data-access/firebase-admin/*"
+        "utils/chrome-storage/*"
       ]
     },
     {
@@ -97,12 +96,18 @@
         "typecheck": {
           "targetName": "typecheck"
         }
-      }
+      },
+      "exclude": ["data-access/firebase-admin/*"]
     }
   ],
   "targetDefaults": {
     "test": {
       "dependsOn": ["^build"]
+    },
+    "@nx/esbuild:esbuild": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
     }
   },
   "generators": {

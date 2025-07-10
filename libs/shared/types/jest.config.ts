@@ -1,3 +1,4 @@
+ 
 import { readFileSync } from 'fs';
 
 // Reading the SWC compilation config for the spec files
@@ -9,7 +10,7 @@ const swcJestConfig = JSON.parse(
 swcJestConfig.swcrc = false;
 
 export default {
-  displayName: '@rac/shared-types',
+  displayName: 'types',
   preset: '../../../jest.preset.js',
   testEnvironment: 'node',
   transform: {

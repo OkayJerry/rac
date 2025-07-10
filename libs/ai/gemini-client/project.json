@@ -1,0 +1,20 @@
+{
+  "name": "gemini-client",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/ai/gemini-client/src",
+  "projectType": "library",
+  "tags": ["scope:shared", "type:data-access"],
+  "targets": {
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "libs/ai/gemini-client/dist",
+        "main": "libs/ai/gemini-client/src/index.ts",
+        "tsConfig": "libs/ai/gemini-client/tsconfig.lib.json",
+        "format": ["esm"],
+        "declarationRootDir": "libs/ai/gemini-client/src"
+      }
+    }
+  }
+}

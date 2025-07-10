@@ -1,7 +1,20 @@
 {
-  "name": "@rac/data-access-firebase-admin",
+  "name": "firebase-admin",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/data-access/firebase-admin/src",
   "projectType": "library",
-  "tags": ["scope:backend"]
+  "tags": ["scope:backend", "type:data-access"],
+  "targets": {
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "libs/data-access/firebase-admin/dist",
+        "main": "libs/data-access/firebase-admin/src/index.ts",
+        "tsConfig": "libs/data-access/firebase-admin/tsconfig.lib.json",
+        "format": ["esm"],
+        "declarationRootDir": "libs/data-access/firebase-admin/src"
+      }
+    }
+  }
 }

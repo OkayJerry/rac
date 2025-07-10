@@ -1,0 +1,20 @@
+{
+  "name": "chrome-storage",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/utils/chrome-storage/src",
+  "projectType": "library",
+  "tags": ["scope:frontend", "type:util"],
+  "targets": {
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "libs/utils/chrome-storage/dist",
+        "main": "libs/utils/chrome-storage/src/index.ts",
+        "tsConfig": "libs/utils/chrome-storage/tsconfig.lib.json",
+        "format": ["esm"],
+        "declarationRootDir": "libs/utils/chrome-storage/src"
+      }
+    }
+  }
+}

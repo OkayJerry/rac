@@ -1,0 +1,20 @@
+{
+  "name": "firebase-client",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/data-access/firebase-client/src",
+  "projectType": "library",
+  "tags": ["scope:frontend", "type:data-access"],
+  "targets": {
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "libs/data-access/firebase-client/dist",
+        "main": "libs/data-access/firebase-client/src/index.ts",
+        "tsConfig": "libs/data-access/firebase-client/tsconfig.lib.json",
+        "format": ["esm"],
+        "declarationRootDir": "libs/data-access/firebase-client/src"
+      }
+    }
+  }
+}

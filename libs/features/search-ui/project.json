@@ -1,0 +1,20 @@
+{
+  "name": "search-ui",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/features/search-ui/src",
+  "projectType": "library",
+  "tags": ["scope:frontend", "type:feature"],
+  "targets": {
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "libs/features/search-ui/dist",
+        "main": "libs/features/search-ui/src/index.ts",
+        "tsConfig": "libs/features/search-ui/tsconfig.lib.json",
+        "format": ["esm"],
+        "declarationRootDir": "libs/features/search-ui/src"
+      }
+    }
+  }
+}
