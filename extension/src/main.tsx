@@ -1,17 +1,20 @@
 // extension/src/main.tsx
-import { StrictMode } from 'react';
-import { BrowserRouter } from 'react-router-dom';
-import * as ReactDOM from 'react-dom/client';
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { HashRouter } from 'react-router-dom';
 import App from './app/app';
+import { initializeClientApp } from '@rac/data-access-firebase-client';
+
+initializeClientApp(import.meta.env);
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
 root.render(
-  <StrictMode>
-    <BrowserRouter>
+  <React.StrictMode>
+    <HashRouter>
       <App />
-    </BrowserRouter>
-  </StrictMode>
+    </HashRouter>
+  </React.StrictMode>
 );
