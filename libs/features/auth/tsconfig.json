@@ -3,6 +3,9 @@
   "include": [],
   "references": [
     {
+      "path": "../../data-access/firebase-client"
+    },
+    {
       "path": "./tsconfig.lib.json"
     },
     {

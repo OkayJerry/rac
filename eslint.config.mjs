@@ -23,7 +23,11 @@ export default [
           depConstraints: [
             {
               sourceTag: 'scope:frontend',
-              onlyDependOnLibsWithTags: ['scope:shared', 'type:data-access'],
+              onlyDependOnLibsWithTags: [
+                'scope:shared',
+                'type:data-access',
+                'type:feature',
+              ],
             },
             {
               sourceTag: 'type:feature',

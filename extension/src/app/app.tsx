@@ -1,51 +1,18 @@
-// extension/src/app/app.tsx
-import NxWelcome from './nx-welcome';
-
-import { Route, Routes, Link } from 'react-router-dom';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from '@rac/data-access-firebase-client';
+import { AuthForm } from '@rac/features-auth';
 
 export function App() {
+  const [user] = useAuthState(auth);
+
+  if (!user) {
+    return <AuthForm />;
+  }
+
   return (
     <div>
-      <NxWelcome title="@rac/extension" />
-
-      {/* START: routes */}
-      {/* These routes and navigation have been generated for you */}
-      {/* Feel free to move and update them to fit your needs */}
-      <br />
-      <hr />
-      <br />
-      <div role="navigation">
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/page-2">Page 2</Link>
-          </li>
-        </ul>
-      </div>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <div>
-              This is the generated root route.{' '}
-              <Link to="/page-2">Click here for page 2.</Link>
-            </div>
-          }
-        />
-        <Route
-          path="/page-2"
-          element={
-            <div>
-              <Link to="/">Click here to go back to root page.</Link>
-            </div>
-          }
-        />
-      </Routes>
-      {/* END: routes */}
+      {/* Your existing app UI for signed-in users */}
+      <h1>Welcome, {user.email}</h1>
     </div>
   );
 }
-
-export default App;

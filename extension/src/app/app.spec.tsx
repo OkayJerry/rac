@@ -1,27 +1,22 @@
 // extension/src/app/app.spec.tsx
 import { render } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
+import { initializeClientApp } from '@rac/data-access-firebase-client';
+import { App } from './app';
 
-import App from './app';
+beforeAll(() => {
+  // initialize Firebase (env can be mocked)
+  initializeClientApp({ DEV: true, VITE_API_KEY: 'test' });
+});
 
-describe('App', () => {
-  it('should render successfully', () => {
-    const { baseElement } = render(
-      <BrowserRouter>
+describe('App smoke test', () => {
+  it('mounts without crashing', () => {
+    const { container } = render(
+      <MemoryRouter>
         <App />
-      </BrowserRouter>
+      </MemoryRouter>
     );
-    expect(baseElement).toBeTruthy();
-  });
-
-  it('should have a greeting as the title', () => {
-    const { getAllByText } = render(
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    );
-    expect(
-      getAllByText(new RegExp('Welcome @rac/extension', 'gi')).length > 0
-    ).toBeTruthy();
+    // basic smoke assertion: something basic exists
+    expect(container).toBeDefined();
   });
 });

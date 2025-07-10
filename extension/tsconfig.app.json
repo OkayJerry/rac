@@ -35,6 +35,9 @@
   "include": ["src/**/*.js", "src/**/*.jsx", "src/**/*.ts", "src/**/*.tsx"],
   "references": [
     {
+      "path": "../libs/features/auth/tsconfig.lib.json"
+    },
+    {
       "path": "../libs/data-access/firebase-client/tsconfig.lib.json"
     }
   ]

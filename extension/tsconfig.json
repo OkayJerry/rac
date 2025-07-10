@@ -3,6 +3,9 @@
   "include": [],
   "references": [
     {
+      "path": "../libs/features/auth"
+    },
+    {
       "path": "../libs/data-access/firebase-client"
     },
     {
