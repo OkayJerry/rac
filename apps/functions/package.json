@@ -10,6 +10,10 @@
     "build": "echo 'Functions built in predeploy.'"
   },
   "dependencies": {
-    "firebase-functions": "^6.0.0"
+    "@genkit-ai/firebase": "^1.14.1",
+    "@genkit-ai/googleai": "^1.14.1",
+    "@genkit-ai/vertexai": "^1.14.1",
+    "firebase-functions": "^6.0.0",
+    "genkit": "^1.14.1"
   }
 }

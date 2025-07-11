@@ -4,7 +4,9 @@
   "license": "MIT",
   "scripts": {
     "tree": "tree -a -I \"$(grep -vE '^#|^$' .gitignore | tr '\\n' '|' | sed 's/|$//')|.git\" -o tree.txt",
-    "dev": "concurrently \"npx nx serve extension\" \"wait-on http://localhost:4200 && open -n -a 'Google Chrome' --args --load-extension=$(pwd)/extension/dist --disable-extensions-except=$(pwd)/extension/dist\"",
+    "dev:web": "npx nx serve extension",
+    "dev:chrome": "wait-on http://localhost:4200 && open -n -a 'Google Chrome' --args --load-extension=$(pwd)/extension/dist --disable-extensions-except=$(pwd)/extension/dist",
+    "dev": "concurrently \"npm:dev:web\" \"npm:dev:chrome\" \"npm:emulators\" \"npm:genkit:start\"",
     "clean": "npx nx reset",
     "clean:dist": "rimraf dist && rimraf test-output",
     "format": "npx nx format:write --all",
@@ -17,6 +19,7 @@
     "test": "npm run test:unit && npm run test:e2e",
     "affected:test": "npx nx affected --target=test --base=origin/main --parallel",
     "emulators": "firebase emulators:start --only auth,firestore,functions",
+    "genkit:start": "cd apps/functions && genkit start",
     "deploy:functions": "npx nx run functions:deploy",
     "dep-graph": "npx nx dep-graph --file=graph.html",
     "ci:affected": "npm run clean && npm run affected:lint && npm run affected:build && npm run affected:test",
@@ -118,6 +121,8 @@
     "libs/ai/*"
   ],
   "dependencies": {
+    "@genkit-ai/googleai": "^1.14.1",
+    "@genkit-ai/vertexai": "^1.14.1",
     "@google/generative-ai": "^0.24.1",
     "firebase": "^11.10.0",
     "firebase-functions": "^6.0.0",
