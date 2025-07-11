@@ -15,59 +15,51 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1) Checkout full history for Nx affected detection
+      # 1. Checkout repository
+      # fetch-depth: 0 is required for Nx to compare with the 'main' branch for affected commands.
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      # 2) Setup Node.js and cache npm modules
+      # 2. Setup Node.js and cache npm modules for faster installs
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'npm'
 
-      # 3) Install dependencies
+      # 3. Install dependencies from the lock file
       - name: Install dependencies
-        run: npm ci --legacy-peer-deps
+        run: npm ci
 
-      # 4) Prettier formatting check
-      - name: Check formatting
-        run: npx nx format:check --all
+      # 4. Run lint, test, and build commands
+      # On pushes to 'main', run against all projects to ensure full integrity.
+      # On pull requests, run only against affected projects for speed.
+      - name: Run CI tasks (for main branch)
+        if: github.event_name == 'push'
+        run: npm run ci
 
-      # 5) ESLint / module-boundary lint on affected projects
-      - name: Lint affected projects
-        run: npx nx affected --target=lint --parallel
+      - name: Run CI tasks on Affected Projects (for PRs)
+        if: github.event_name == 'pull_request'
+        run: npm run ci:affected
 
-      # 6) Run unit tests for affected projects
-      - name: Test affected projects
-        run: npx nx affected --target=test --parallel
-
-      # 7) Build only the affected projects
-      - name: Build affected projects
-        run: npx nx affected --target=build --parallel
-
-      # 8) Always build the Cloud Functions project
-      - name: Build Cloud Functions
-        run: npx nx build functions
-
-      # 9) Install firebase-admin in functions workspace to satisfy emulator
-      - name: Install firebase-admin for emulator
-        run: npm install --save firebase-admin
-
-      # 10) Cache Firestore emulator JAR to speed up CI
+      # 5. Cache Firestore emulator JAR to speed up subsequent CI runs
       - name: Cache Firestore Emulator JAR
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.cache/firebase/emulators
-          key: ${{ runner.os }}-firebase-emulator-cache
+          key: ${{ runner.os }}-firebase-emulator-v1-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-firebase-emulator-v1-
 
-      # 11) Install a pinned version of firebase-tools
+      # 6. Install a pinned version of firebase-tools globally for stability
       - name: Install Firebase CLI
         run: npm install -g firebase-tools@14.9.0
 
-      # 12) End-to-end tests with Playwright against the Firebase Emulator Suite
-      - name: E2E tests with Playwright & Firebase Emulators
-        run: |
-          firebase emulators:exec "npx nx e2e extension-e2e"
+      # 7. Run End-to-end tests against the Firebase Emulator Suite
+      # This step runs after the build is complete. The emulators:exec command starts
+      # the emulators, which use the built functions, and the nx e2e command serves the
+      # web app for Playwright to test.
+      - name: E2E Tests
+        run: npm run test:e2e
